@@ -1,2 +1,3 @@
-export type DimensionType = { x: number, y: number, width: number, height: number };
-export type SpriteType = DimensionType & { color: string, visible: boolean };
+export type PositionType = { x: number, y: number };
+export type DimensionType = { width: number, height: number };
+export type SpriteType = PositionType & DimensionType & { color: string, visible: boolean };
