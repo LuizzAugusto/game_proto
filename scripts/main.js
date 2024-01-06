@@ -13,7 +13,8 @@ if (canvas?.tagName == "CANVAS") {
     canvas.height = 500;
     canvas.style.border = "1px solid #ccc";
     const player = createSprite("green", 0, 0, 50, 50);
-    drawSprite(player, ctx);
+    control(player, 10);
+    update([player], ctx);
   }
   else
     alert("error, can't get canvas context");
@@ -43,4 +44,44 @@ function drawSprite({ color, x, y, width, height, visible }, ctx) {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, width, height);
   }
+}
+
+/**
+ * 
+ * @param {import("./types").SpriteType[]} sprites 
+ * @param {CanvasRenderingContext2D} ctx 
+ */
+function update(sprites, ctx) {
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+  for(const sprite of sprites) {
+    drawSprite(sprite, ctx);
+  }
+
+  requestAnimationFrame(() => update(sprites, ctx));
+}
+
+/**
+ * 
+ * @param {import("./types").SpriteType} player 
+ * @param {number} speed 
+ */
+function control(player, speed) {
+  window.onkeydown = ({key}) => {
+    if (key == "ArrowUp") {
+      player.y -= speed;
+    }
+    else
+    if (key == "ArrowDown") {
+      player.y += speed;
+    }
+
+    if (key == "ArrowLeft") {
+      player.x -= speed;
+    }
+    else
+    if (key == "ArrowRight") {
+      player.x += speed;
+    }
+  };
 }
