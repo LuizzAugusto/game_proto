@@ -14,11 +14,11 @@ export function createGame(ctx) {
 
   const controlSubject = createControlSubject(player, 10);
   window.addEventListener("keydown", (ev) => controlSubject.notifyAll(ev));
-  const collisionSubject = createCollisionSubject(player);
+  const textState = {score: 0, timeLeft: 3};
+  const collisionSubject = createCollisionSubject(player, textState);
   const drawSubject = createDrawSubject(ctx);
   const subjects = [collisionSubject, drawSubject];
-
-  update([sprites, canvasDimension], subjects);
+  update([sprites, canvasDimension, textState], subjects);
 }
 
 /**
@@ -31,8 +31,8 @@ export function createGame(ctx) {
  * @param {boolean|undefined} visible 
  * @returns {import("../types").SpriteType}
  */
-function createSprite(color, x, y, width, height, visible = true) {
-  return { color, x, y, width, height, visible };
+function createSprite(color, x, y, width, height, visible = true, active = true) {
+  return { color, x, y, width, height, visible, active };
 }
 
 /**
@@ -48,10 +48,12 @@ function createTarget(canvasDimension, color = "red") {
 
 /**
  * 
- * @param {[sprites: import("../types").SpriteType[], canvasDimension: import("../types").DimensionType]} state 
+ * @param {[sprites: import("../types").SpriteType[], canvasDimension: import("../types").DimensionType, {score: number, timeLeft: number}]} state 
  * @param {import("../utils/types.js").ObservableSubjectType[]} subjects 
  */
 function update(state, subjects) {
   subjects.forEach(subject => subject.notifyAll(...state));
-  requestAnimationFrame(() => update(state, subjects));
+
+  if (state[0][state[0].length - 1].active)
+    requestAnimationFrame(() => update(state, subjects));
 }

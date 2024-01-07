@@ -10,7 +10,10 @@ import { createObservableSubject } from "../utils/ObservableSubject.js";
 export function createControlSubject(player, speed) {
 
   const controlSubject = createObservableSubject();
-  controlSubject.subscribe((ev) => control(player, speed, ev));
+  controlSubject.subscribe((ev) => {
+    if (player.active)
+      control(player, speed, ev);
+  });
 
   return controlSubject;
 }
