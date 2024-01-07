@@ -10,7 +10,7 @@ import { createObservableSubject } from "../utils/ObservableSubject.js";
 export function createControlSubject(player, speed) {
 
   const controlSubject = createObservableSubject();
-  controlSubject.subscribe(() => control(player, speed));
+  controlSubject.subscribe((ev) => control(player, speed, ev));
 
   return controlSubject;
 }
@@ -19,9 +19,9 @@ export function createControlSubject(player, speed) {
  * 
  * @param {import("../types").SpriteType} player 
  * @param {number} speed 
+ * @param {KeyboardEvent} ev
  */
-function control(player, speed) {
-  window.onkeydown = ({key}) => {
+function control(player, speed, {key}) {
     if (key == "ArrowUp") {
       player.y -= speed;
     }
@@ -37,5 +37,4 @@ function control(player, speed) {
     if (key == "ArrowRight") {
       player.x += speed;
     }
-  };
 }
