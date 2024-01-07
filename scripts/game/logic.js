@@ -3,33 +3,37 @@ import { createObservableSubject } from "../utils/ObservableSubject.js";
 
 /**
  * 
- * @param {import("../types").SpriteType[]} sprites 
  * @param {import("../types").SpriteType} player 
- * @param {import("../types").DimensionType} canvasDimension 
  * @returns {import("../utils/types").ObservableSubjectType}
  */
-export function createCollisionSubject(sprites, player, canvasDimension) {
+export function createCollisionSubject(player) {
   const collisionSubject = createObservableSubject();
-  collisionSubject.subscribe(() => resetTargetPositionIfColliding(sprites, player, canvasDimension));
+  collisionSubject.subscribe(
+    /**
+     * 
+     * @param {import("../types").SpriteType[]} sprites 
+     * @param {import("../types").DimensionType} canvasDimension 
+     */
+    (sprites, canvasDimension) => {
+      for(let x = 0; x < sprites.length - 1; x++)
+        resetTargetPositionIfColliding(sprites[x], player, canvasDimension);
+    }
+  );
 
   return collisionSubject;
 }
 
 /**
  * 
- * @param {import("../types").SpriteType[]} sprites 
+ * @param {import("../types").SpriteType} target 
  * @param {import("../types").SpriteType} player 
  * @param {import("../types").DimensionType} canvasDimension 
  */
-function resetTargetPositionIfColliding(sprites, player, canvasDimension) {
-  for(let y = 0; y < (sprites.length - 1); y++) {
-    const gameObject = sprites[y];
-
-    if (collision(gameObject, player))
-      do
-        resetPosition(gameObject, canvasDimension);
-      while (collision(gameObject, player));
-  }
+function resetTargetPositionIfColliding(target, player, canvasDimension) {
+  if (collision(target, player))
+    do
+      resetPosition(target, canvasDimension);
+    while (collision(target, player));
 }
 
 /**

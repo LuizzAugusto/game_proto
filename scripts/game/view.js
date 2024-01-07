@@ -3,15 +3,19 @@ import { createObservableSubject } from "../utils/ObservableSubject.js";
 
 /**
  * 
- * @param {import("../types").SpriteType[]} sprites 
  * @param {CanvasRenderingContext2D} ctx 
- * @param {import("../types").DimensionType} canvasDimension 
  * @returns 
  */
-export function createDrawSubject(sprites, ctx, canvasDimension) {
+export function createDrawSubject(ctx) {
   const drawSubject = createObservableSubject();
-  drawSubject.subscribe(() => {
-    ctx.clearRect(0, 0, canvasDimension.width, canvasDimension.height);
+  drawSubject.subscribe(
+    /**
+     * 
+     * @param {import("../types").SpriteType[]} sprites 
+     * @param {import("../types").DimensionType} canvasDimension 
+     */
+    (sprites, {width, height}) => {
+    ctx.clearRect(0, 0, width, height);
     sprites.forEach(sprite => drawSprite(sprite, ctx));
   });
 

@@ -8,17 +8,17 @@ import { createDrawSubject } from "./view.js";
  * @param {CanvasRenderingContext2D} ctx 
  */
 export function createGame(ctx) {
-  const canvasDimension = {width: ctx.canvas.width, height: ctx.canvas.height};
+  const canvasDimension = {get width() { return ctx.canvas.width; }, get height() { return ctx.canvas.height; }};
   const player = createTarget(canvasDimension, "green");
   const sprites = [createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player];
-  
+
   const controlSubject = createControlSubject(player, 10);
   window.addEventListener("keydown", (ev) => controlSubject.notifyAll(ev));
-  const collisionSubject = createCollisionSubject(sprites, player, canvasDimension);
-  const drawSubject = createDrawSubject(sprites, ctx, canvasDimension);
+  const collisionSubject = createCollisionSubject(player);
+  const drawSubject = createDrawSubject(ctx);
   const subjects = [collisionSubject, drawSubject];
 
-  update(subjects);
+  update([sprites, canvasDimension], subjects);
 }
 
 /**
@@ -48,9 +48,10 @@ function createTarget(canvasDimension, color = "red") {
 
 /**
  * 
+ * @param {[sprites: import("../types").SpriteType[], canvasDimension: import("../types").DimensionType]} state 
  * @param {import("../utils/types.js").ObservableSubjectType[]} subjects 
  */
-function update(subjects) {
-  subjects.forEach(subject => subject.notifyAll());
-  requestAnimationFrame(() => update(subjects));
+function update(state, subjects) {
+  subjects.forEach(subject => subject.notifyAll(...state));
+  requestAnimationFrame(() => update(state, subjects));
 }
