@@ -14,11 +14,9 @@ if (canvas?.tagName == "CANVAS") {
     canvas.style.border = "1px solid #ccc";
     const canvasDimension = {width: ctx.canvas.width, height: ctx.canvas.height};
     const player = createSprite("green", 0, 0, 50, 50);
-    const target = createSprite("red", 0, 0, 50, 50);
     resetPosition(player, canvasDimension);
-    resetPosition(target, canvasDimension);
     control(player, 10);
-    update([target,player], ctx);
+    update([createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player], ctx);
   }
   else
     alert("error, can't get canvas context");
@@ -36,6 +34,16 @@ if (canvas?.tagName == "CANVAS") {
  */
 function createSprite(color, x, y, width, height, visible = true) {
   return { color, x, y, width, height, visible };
+}
+
+/**
+ * 
+ * @param {import("./types").DimensionType} canvasDimension 
+ */
+function createTarget(canvasDimension) {
+  const target = createSprite("red", 0, 0, 50, 50);
+  resetPosition(target, canvasDimension);
+  return target;
 }
 
 /**
@@ -59,6 +67,7 @@ function update(sprites, ctx) {
   const player = sprites[sprites.length-1];
   const canvasDimension = {width: ctx.canvas.width, height: ctx.canvas.height};
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  
   for(let x = 0; x < sprites.length; x++) {
     const gameObject = sprites[x];
 
