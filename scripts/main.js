@@ -1,4 +1,6 @@
 //@ts-check
+import { createObservableSubject } from "./utils/ObservableSubject.js";
+
 /**
  * 
  * @type {HTMLCanvasElement|null}
@@ -12,11 +14,24 @@ if (canvas?.tagName == "CANVAS") {
     canvas.width = 500;
     canvas.height = 500;
     canvas.style.border = "1px solid #ccc";
+    
     const canvasDimension = {width: ctx.canvas.width, height: ctx.canvas.height};
     const player = createSprite("green", 0, 0, 50, 50);
     resetPosition(player, canvasDimension);
-    control(player, 10);
-    update([createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player], ctx);
+    const sprites = [createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player];
+    
+    const controlSubject = createObservableSubject();
+    controlSubject.subscribe(() => control(player, 10));
+    const collisionSubject = createObservableSubject();
+    collisionSubject.subscribe(() => resetTargetPositionIfColliding(sprites, player, canvasDimension));
+    const viewSubject = createObservableSubject();
+    viewSubject.subscribe(() => {
+      ctx.clearRect(0, 0, canvasDimension.width, canvasDimension.height);
+      sprites.forEach(sprite => drawSprite(sprite, ctx));
+    });
+    const subjects = [controlSubject, collisionSubject, viewSubject];
+
+    update(subjects);
   }
   else
     alert("error, can't get canvas context");
@@ -60,22 +75,11 @@ function drawSprite({ color, x, y, width, height, visible }, ctx) {
 
 /**
  * 
- * @param {import("./types").SpriteType[]} sprites 
- * @param {CanvasRenderingContext2D} ctx 
+ * @param {import("./utils/types.js").ObservableSubjectType[]} subjects 
  */
-function update(sprites, ctx) {
-  const player = sprites[sprites.length-1];
-  const canvasDimension = {width: ctx.canvas.width, height: ctx.canvas.height};
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  
-  for(let x = 0; x < sprites.length; x++) {
-    const gameObject = sprites[x];
-
-    resetTargetPositionIfColliding(sprites, player, canvasDimension);
-    drawSprite(gameObject, ctx);
-  }
-
-  requestAnimationFrame(() => update(sprites, ctx));
+function update(subjects) {
+  subjects.forEach(subject => subject.notifyAll());
+  requestAnimationFrame(() => update(subjects));
 }
 
 /**
