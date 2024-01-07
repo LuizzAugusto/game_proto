@@ -12,8 +12,11 @@ if (canvas?.tagName == "CANVAS") {
     canvas.width = 500;
     canvas.height = 500;
     canvas.style.border = "1px solid #ccc";
+    const canvasDimension = {width: ctx.canvas.width, height: ctx.canvas.height};
     const player = createSprite("green", 0, 0, 50, 50);
-    const target = createSprite("red", 225, 225, 50, 50);
+    const target = createSprite("red", 0, 0, 50, 50);
+    resetPosition(player, canvasDimension);
+    resetPosition(target, canvasDimension);
     control(player, 10);
     update([target,player], ctx);
   }
@@ -54,10 +57,12 @@ function drawSprite({ color, x, y, width, height, visible }, ctx) {
  */
 function update(sprites, ctx) {
   const player = sprites[sprites.length-1];
+  const canvasDimension = {width: ctx.canvas.width, height: ctx.canvas.height};
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   for(let x = 0; x < sprites.length; x++) {
     const gameObject = sprites[x];
-    turnInvisibleTargetIfColliding(sprites, player);
+
+    resetTargetPositionIfColliding(sprites, player, canvasDimension);
     drawSprite(gameObject, ctx);
   }
 
@@ -104,12 +109,25 @@ function collision(sprite, sprite2) {
  * 
  * @param {import("./types").SpriteType[]} sprites 
  * @param {import("./types").SpriteType} player 
+ * @param {import("./types").DimensionType} canvasDimension 
  */
-function turnInvisibleTargetIfColliding(sprites, player) {
+function resetTargetPositionIfColliding(sprites, player, canvasDimension) {
   for(let y = 0; y < (sprites.length - 1); y++) {
     const gameObject = sprites[y];
 
     if (collision(gameObject, player))
-      gameObject.visible = false;
+      do
+        resetPosition(gameObject, canvasDimension);
+      while (collision(gameObject, player));
   }
+}
+
+/**
+ * 
+ * @param {import("./types").SpriteType} sprite 
+ * @param {import("./types").DimensionType} canvasDimension 
+ */
+function resetPosition(sprite, {width, height}) {
+  sprite.x = Math.floor((Math.random() * width*10) % (width - sprite.width));
+  sprite.y = Math.floor((Math.random() * height*10) % (height - sprite.height));
 }
