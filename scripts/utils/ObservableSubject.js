@@ -10,7 +10,7 @@ export function createObservableSubject() {
    */
   let state = [];
   return {
-    notifyAll: (...args) => state.forEach(observer => observer(args)),
+    notifyAll: (...args) => state.forEach(observer => observer(...args)),
     subscribe: (observer) => {
       const willSubscribe = !state.includes(observer);
 
