@@ -12,7 +12,7 @@ export function createControlSubject(player, speed) {
     const controlSubject = createObservableSubject();
     controlSubject.subscribe((ev) => {
         if (player.active)
-            control(player, speed, ev);
+            playerControl(player, speed, ev);
     });
 
     return controlSubject;
@@ -24,7 +24,7 @@ export function createControlSubject(player, speed) {
  * @param {number} speed 
  * @param {KeyboardEvent} ev
  */
-function control(player, speed, { key }) {
+function playerControl(player, speed, { key }) {
     if (key == "ArrowUp") { player.y -= speed; }
     else
         if (key == "ArrowDown") { player.y += speed; }
