@@ -1,21 +1,4 @@
 //@ts-check
-import { createObservableSubject } from "../utils/ObservableSubject.js";
-
-/**
- * 
- * @param {import("../types").SpriteType} player 
- * @param {number} speed 
- * @returns 
- */
-export function createControlSubject(player, speed) {
-
-    const controlSubject = createObservableSubject();
-    controlSubject.subscribe((ev) => {
-        playerControl(player, speed, ev);
-    });
-
-    return controlSubject;
-}
 
 /**
  * 
@@ -36,4 +19,13 @@ function playerControl(player, speed, { key }) {
         player.x -= speed;
     else if (key == "ArrowRight")
         player.x += speed;
+}
+
+/**
+ * 
+ * @param {import("../types").SpriteType} player 
+ * @param {number} speed 
+ */
+export function bindPlayerControlToKeyboard(player, speed) {
+    window.addEventListener("keydown", (ev) => playerControl(player, speed, ev));
 }

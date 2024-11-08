@@ -1,5 +1,5 @@
 //@ts-check
-import { createControlSubject } from "./input.js";
+import { bindPlayerControlToKeyboard } from "./input.js";
 import { createCollisionSubject, resetPosition } from "./logic.js";
 import { createDrawSubject } from "./view.js";
 
@@ -13,8 +13,7 @@ export function createGame(ctx) {
     const targets = [createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player];
     const playerSpeed = 10;
 
-    const controlSubject = createControlSubject(player, playerSpeed);
-    window.addEventListener("keydown", (ev) => controlSubject.notifyAll(ev));
+    bindPlayerControlToKeyboard(player, playerSpeed);
 
     const textState = { score: 0, timeLeft: 3 };
 
