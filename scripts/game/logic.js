@@ -53,14 +53,9 @@ function verifyCollision(target, player, canvasDimension, textState) {
  * @param {import("../types").SpriteType} player 
  * @param {import("../types").DimensionType} canvasDimension 
  */
-function resetTargetPositionWhileColliding(target, player, canvasDimension, usindgDo = true) {
-    if (usindgDo)
-        do
-            resetPosition(target, canvasDimension);
-        while (collision(target, player));
-    else
-        while (collision(target, player))
-            resetPosition(target, canvasDimension);
+function resetTargetPositionWhileColliding(target, player, canvasDimension) {
+    do resetPosition(target, canvasDimension);
+    while (collision(target, player));
 }
 
 /**
