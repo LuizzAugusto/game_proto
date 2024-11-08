@@ -9,13 +9,13 @@ import { createObservableSubject } from "../utils/ObservableSubject.js";
  */
 export function createControlSubject(player, speed) {
 
-  const controlSubject = createObservableSubject();
-  controlSubject.subscribe((ev) => {
-    if (player.active)
-      control(player, speed, ev);
-  });
+    const controlSubject = createObservableSubject();
+    controlSubject.subscribe((ev) => {
+        if (player.active)
+            control(player, speed, ev);
+    });
 
-  return controlSubject;
+    return controlSubject;
 }
 
 /**
@@ -24,20 +24,12 @@ export function createControlSubject(player, speed) {
  * @param {number} speed 
  * @param {KeyboardEvent} ev
  */
-function control(player, speed, {key}) {
-    if (key == "ArrowUp") {
-      player.y -= speed;
-    }
+function control(player, speed, { key }) {
+    if (key == "ArrowUp") { player.y -= speed; }
     else
-    if (key == "ArrowDown") {
-      player.y += speed;
-    }
+        if (key == "ArrowDown") { player.y += speed; }
 
-    if (key == "ArrowLeft") {
-      player.x -= speed;
-    }
+    if (key == "ArrowLeft") { player.x -= speed; }
     else
-    if (key == "ArrowRight") {
-      player.x += speed;
-    }
+        if (key == "ArrowRight") { player.x += speed; }
 }

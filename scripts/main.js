@@ -8,14 +8,14 @@ import { createGame } from "./game/main.js";
 //@ts-ignore
 const canvas = document.getElementById("game");
 if (canvas?.tagName == "CANVAS") {
-  const ctx = canvas.getContext("2d", { alpha: false });
+    const ctx = canvas.getContext("2d", { alpha: false });
 
-  if (ctx != null) {
-    canvas.width = 500;
-    canvas.height = 500;
-    canvas.style.border = "1px solid #ccc";
-    createGame(ctx);
-  }
-  else
-    alert("error, can't get canvas context");
+    if (ctx != null) {
+        canvas.width = 500;
+        canvas.height = 500;
+        canvas.style.border = "1px solid #ccc";
+        createGame(ctx);
+    }
+    else
+        alert("error, can't get canvas context");
 }
