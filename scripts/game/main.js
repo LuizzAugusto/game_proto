@@ -14,10 +14,13 @@ export function createGame(ctx) {
 
     const controlSubject = createControlSubject(player, 10);
     window.addEventListener("keydown", (ev) => controlSubject.notifyAll(ev));
+
     const textState = { score: 0, timeLeft: 3 };
+
     const collisionSubject = createCollisionSubject(player, textState);
     const drawSubject = createDrawSubject(ctx);
     const subjects = [collisionSubject, drawSubject];
+    
     update([targets, canvasDimension, textState], subjects);
 }
 
