@@ -2,11 +2,11 @@
 
 /**
  * 
+ * @param {KeyboardEvent} ev
  * @param {import("../types").SpriteType} player 
  * @param {number} speed 
- * @param {KeyboardEvent} ev
  */
-function playerControl(player, speed, { key }) {
+function playerControl({ key }, player, speed) {
     if (!player.active)
         return;
     
@@ -27,5 +27,5 @@ function playerControl(player, speed, { key }) {
  * @param {number} speed 
  */
 export function bindPlayerControlToKeyboard(player, speed) {
-    window.addEventListener("keydown", (ev) => playerControl(player, speed, ev));
+    window.addEventListener("keydown", (ev) => playerControl(ev, player, speed));
 }
