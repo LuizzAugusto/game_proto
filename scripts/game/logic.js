@@ -5,9 +5,8 @@ import { createObservableSubject } from "../utils/ObservableSubject.js";
  * 
  * @param {import("../types").SpriteType} player 
  * @param {{score: number, timeLeft: number}} textState 
- * @returns {import("../utils/types").ObservableSubjectType}
  */
-export function createCollisionSubject(player, textState) {
+export function setTimerForGameOver(player, textState) {
     const id = window.setInterval(() => {
         textState.timeLeft -= 1;
         if (textState.timeLeft == 0) {
@@ -15,7 +14,14 @@ export function createCollisionSubject(player, textState) {
             window.clearInterval(id);
         }
     }, 1000);
+}
 
+/**
+ * 
+ * @param {import("../types").SpriteType} player 
+ * @returns {import("../utils/types").ObservableSubjectType}
+ */
+export function createCollisionSubject(player) {
     const collisionSubject = createObservableSubject();
     collisionSubject.subscribe(
         /**

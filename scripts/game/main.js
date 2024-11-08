@@ -1,6 +1,6 @@
 //@ts-check
 import { bindPlayerControlToKeyboard } from "./input.js";
-import { createCollisionSubject, resetPosition } from "./logic.js";
+import { createCollisionSubject, resetPosition, setTimerForGameOver } from "./logic.js";
 import { createDrawSubject } from "./view.js";
 
 /**
@@ -12,12 +12,11 @@ export function createGame(ctx) {
     const player = createTarget(canvasDimension, "green");
     const targets = [createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player];
     const playerSpeed = 10;
-
-    bindPlayerControlToKeyboard(player, playerSpeed);
-
     const textState = { score: 0, timeLeft: 3 };
 
-    const collisionSubject = createCollisionSubject(player, textState);
+    bindPlayerControlToKeyboard(player, playerSpeed);
+    setTimerForGameOver(player, textState);
+    const collisionSubject = createCollisionSubject(player);
     const drawSubject = createDrawSubject(ctx);
     const subjects = [collisionSubject, drawSubject];
     
