@@ -42,7 +42,7 @@ export function createCollisionSubject(player, textState) {
  */
 function verifyCollision(target, player, canvasDimension, textState) {
     if (collision(target, player)) {
-        scoreIfColliding(textState);
+        score(textState);
         resetTargetPositionWhileColliding(target, player, canvasDimension);
     }
 }
@@ -83,7 +83,7 @@ function collision(sprite, sprite2) {
  * 
  * @param {{score: number, timeLeft: number}} textState 
  */
-function scoreIfColliding(textState) {
+function score(textState) {
     textState.score += 1;
     textState.timeLeft += 1;
 }
