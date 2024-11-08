@@ -10,7 +10,7 @@ import { createDrawSubject } from "./view.js";
 export function createGame(ctx) {
     const canvasDimension = { get width() { return ctx.canvas.width; }, get height() { return ctx.canvas.height; } };
     const player = createTarget(canvasDimension, "green");
-    const sprites = [createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player];
+    const targets = [createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player];
 
     const controlSubject = createControlSubject(player, 10);
     window.addEventListener("keydown", (ev) => controlSubject.notifyAll(ev));
@@ -18,7 +18,7 @@ export function createGame(ctx) {
     const collisionSubject = createCollisionSubject(player, textState);
     const drawSubject = createDrawSubject(ctx);
     const subjects = [collisionSubject, drawSubject];
-    update([sprites, canvasDimension, textState], subjects);
+    update([targets, canvasDimension, textState], subjects);
 }
 
 /**
