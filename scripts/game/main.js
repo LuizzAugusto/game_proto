@@ -11,8 +11,9 @@ export function createGame(ctx) {
     const canvasDimension = { get width() { return ctx.canvas.width; }, get height() { return ctx.canvas.height; } };
     const player = createTarget(canvasDimension, "green");
     const targets = [createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player];
+    const playerSpeed = 10;
 
-    const controlSubject = createControlSubject(player, 10);
+    const controlSubject = createControlSubject(player, playerSpeed);
     window.addEventListener("keydown", (ev) => controlSubject.notifyAll(ev));
 
     const textState = { score: 0, timeLeft: 3 };
