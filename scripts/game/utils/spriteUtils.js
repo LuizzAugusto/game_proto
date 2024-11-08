@@ -18,10 +18,19 @@ export function createSprite(color, x, y, width, height, visible = true, active 
 /**
  * 
  * @param {import("../../types").DimensionType} canvasDimension 
- * @param {string|undefined} color 
  */
-export function createTarget(canvasDimension, color = "red") {
-    const target = createSprite(color, 0, 0, 50, 50);
+export function createPlayer(canvasDimension) {
+    const player = createSprite("green", 0, 0, 50, 50);
+    resetPosition(player, canvasDimension);
+    return player;
+}
+
+/**
+ * 
+ * @param {import("../../types").DimensionType} canvasDimension 
+ */
+export function createTarget(canvasDimension) {
+    const target = createSprite("red", 0, 0, 50, 50);
     resetPosition(target, canvasDimension);
     return target;
 }

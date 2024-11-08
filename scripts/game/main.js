@@ -1,7 +1,7 @@
 //@ts-check
 import { bindPlayerControlToKeyboard } from "./input.js";
 import { createCollisionSubject, setTimerForGameOver } from "./logic.js";
-import { createTarget } from "./utils/spriteUtils.js";
+import { createPlayer, createTarget } from "./utils/spriteUtils.js";
 import { createDrawSubject } from "./view.js";
 
 /**
@@ -10,7 +10,7 @@ import { createDrawSubject } from "./view.js";
  */
 export function createGame(ctx) {
     const canvasDimension = { get width() { return ctx.canvas.width; }, get height() { return ctx.canvas.height; } };
-    const player = createTarget(canvasDimension, "green");
+    const player = createPlayer(canvasDimension);
     const sprites = [createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player];
     const playerSpeed = 10;
     const textState = { score: 0, timeLeft: 3 };
