@@ -26,8 +26,8 @@ export function createGame(ctx) {
 
 /**
  * 
- * @param {[sprites: import("../types").SpriteType[], canvasDimension: import("../types").DimensionType, {score: number, timeLeft: number}]} state 
- * @param {import("../utils/types.js").ObservableSubjectType[]} subjects 
+ * @param {[sprites: import("./utils/spriteUtils.js").SpriteType[], canvasDimension: import("./utils/spriteUtils.js").DimensionType, {score: number, timeLeft: number}]} state 
+ * @param {import("../utils/ObservableSubject.js").ObservableSubjectType[]} subjects 
  */
 function update(state, subjects) {
     subjects.forEach(subject => subject.notifyAll(...state));

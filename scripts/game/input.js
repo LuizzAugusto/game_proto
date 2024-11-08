@@ -3,7 +3,7 @@
 /**
  * 
  * @param {KeyboardEvent} ev
- * @param {import("../types").SpriteType} player 
+ * @param {import("./utils/spriteUtils").SpriteType} player 
  * @param {number} speed 
  */
 function playerControl({ key }, player, speed) {
@@ -23,7 +23,7 @@ function playerControl({ key }, player, speed) {
 
 /**
  * 
- * @param {import("../types").SpriteType} player 
+ * @param {import("./utils/spriteUtils").SpriteType} player 
  * @param {number} speed 
  */
 export function bindPlayerControlToKeyboard(player, speed) {

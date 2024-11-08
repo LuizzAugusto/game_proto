@@ -3,7 +3,7 @@ import { createObservableSubject } from "../utils/ObservableSubject.js";
 
 /**
  * 
- * @param {import("../types").SpriteType} player 
+ * @param {import("./utils/spriteUtils.js").SpriteType} player 
  * @param {{score: number, timeLeft: number}} textState 
  */
 export function setTimerForGameOver(player, textState) {
@@ -18,16 +18,16 @@ export function setTimerForGameOver(player, textState) {
 
 /**
  * 
- * @param {import("../types").SpriteType} player 
- * @returns {import("../utils/types").ObservableSubjectType}
+ * @param {import("./utils/spriteUtils.js").SpriteType} player 
+ * @returns {import("../utils/ObservableSubject.js").ObservableSubjectType}
  */
 export function createCollisionSubject(player) {
     const collisionSubject = createObservableSubject();
     collisionSubject.subscribe(
         /**
          * 
-         * @param {import("../types").SpriteType[]} sprites 
-         * @param {import("../types").DimensionType} canvasDimension 
+         * @param {import("./utils/spriteUtils.js").SpriteType[]} sprites 
+         * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
          * @param {{score: number, timeLeft: number}} textState 
          */
         (sprites, canvasDimension, textState) => {
@@ -41,9 +41,9 @@ export function createCollisionSubject(player) {
 
 /**
  * 
- * @param {import("../types").SpriteType} target 
- * @param {import("../types").SpriteType} player 
- * @param {import("../types").DimensionType} canvasDimension 
+ * @param {import("./utils/spriteUtils.js").SpriteType} target 
+ * @param {import("./utils/spriteUtils.js").SpriteType} player 
+ * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
  * @param {{score: number, timeLeft: number}} textState 
  */
 function verifyCollision(target, player, canvasDimension, textState) {
@@ -55,9 +55,9 @@ function verifyCollision(target, player, canvasDimension, textState) {
 
 /**
  * 
- * @param {import("../types").SpriteType} target 
- * @param {import("../types").SpriteType} player 
- * @param {import("../types").DimensionType} canvasDimension 
+ * @param {import("./utils/spriteUtils.js").SpriteType} target 
+ * @param {import("./utils/spriteUtils.js").SpriteType} player 
+ * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
  */
 function resetTargetPositionWhileColliding(target, player, canvasDimension) {
     do resetPosition(target, canvasDimension);
@@ -66,8 +66,8 @@ function resetTargetPositionWhileColliding(target, player, canvasDimension) {
 
 /**
  * 
- * @param {import("../types").SpriteType} sprite 
- * @param {import("../types").DimensionType} canvasDimension 
+ * @param {import("./utils/spriteUtils.js").SpriteType} sprite 
+ * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
  */
 export function resetPosition(sprite, { width, height }) {
     sprite.x = Math.floor((Math.random() * width * 10) % (width - sprite.width));
@@ -76,8 +76,8 @@ export function resetPosition(sprite, { width, height }) {
 
 /**
  * 
- * @param {import("../types").SpriteType} sprite 
- * @param {import("../types").SpriteType} sprite2 
+ * @param {import("./utils/spriteUtils.js").SpriteType} sprite 
+ * @param {import("./utils/spriteUtils.js").SpriteType} sprite2 
  */
 function collision(sprite, sprite2) {
     return sprite.visible && sprite2.visible

@@ -1,12 +1,26 @@
 //@ts-check
+
 /**
  * 
- * @returns {import("./types").ObservableSubjectType}
+ * @typedef {(...args: any) => void} ObserverType
+ */
+
+/**
+ * 
+ * @typedef {Object} ObservableSubjectType
+ * @property {ObserverType} notifyAll,
+ * @property {(observer: ObserverType) => boolean} subscribe
+ * @property {(observer: ObserverType) => boolean} unsubscribe
+ */
+
+/**
+ * 
+ * @returns {ObservableSubjectType}
  */
 export function createObservableSubject() {
     /**
      * 
-     * @type {import("./types").ObserverType[]}
+     * @type {ObserverType[]}
      */
     let state = [];
     return {

@@ -11,8 +11,8 @@ export function createDrawSubject(ctx) {
     drawSubject.subscribe(
         /**
          * 
-         * @param {import("../types").SpriteType[]} sprites 
-         * @param {import("../types").DimensionType} canvasDimension 
+         * @param {import("./utils/spriteUtils.js").SpriteType[]} sprites 
+         * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
          * @param {{score: number, timeLeft: number}} textState 
          */
         (sprites, { width, height }, { score, timeLeft }) => {
@@ -31,7 +31,7 @@ export function createDrawSubject(ctx) {
 
 /**
  * 
- * @param {import("../types").SpriteType} sprite 
+ * @param {import("./utils/spriteUtils.js").SpriteType} sprite 
  * @param {CanvasRenderingContext2D} ctx 
  */
 function drawSprite({ color, x, y, width, height, visible }, ctx) {
