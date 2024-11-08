@@ -1,6 +1,7 @@
 //@ts-check
 import { bindPlayerControlToKeyboard } from "./input.js";
-import { createCollisionSubject, resetPosition, setTimerForGameOver } from "./logic.js";
+import { createCollisionSubject, setTimerForGameOver } from "./logic.js";
+import { createTarget } from "./utils/spriteUtils.js";
 import { createDrawSubject } from "./view.js";
 
 /**
@@ -21,31 +22,6 @@ export function createGame(ctx) {
     const subjects = [collisionSubject, drawSubject];
     
     update([targets, canvasDimension, textState], subjects);
-}
-
-/**
- * 
- * @param {string} color 
- * @param {number} x 
- * @param {number} y 
- * @param {number} width 
- * @param {number} height 
- * @param {boolean|undefined} visible 
- * @returns {import("../types").SpriteType}
- */
-function createSprite(color, x, y, width, height, visible = true, active = true) {
-    return { color, x, y, width, height, visible, active };
-}
-
-/**
- * 
- * @param {import("../types").DimensionType} canvasDimension 
- * @param {string|undefined} color 
- */
-function createTarget(canvasDimension, color = "red") {
-    const target = createSprite(color, 0, 0, 50, 50);
-    resetPosition(target, canvasDimension);
-    return target;
 }
 
 /**
