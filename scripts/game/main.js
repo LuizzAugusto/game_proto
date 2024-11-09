@@ -19,8 +19,7 @@ import { createDrawSubject } from "./view.js";
  */
 export function createGame(ctx) {
     const player = createPlayer(ctx.canvas);
-    const targets = [ createTarget(ctx.canvas, player), createTarget(ctx.canvas, player), createTarget(ctx.canvas, player), createTarget(ctx.canvas, player) ];
-    const sprites = [ player, ...targets ];
+    const sprites = [ player, createTarget(ctx.canvas, player), createTarget(ctx.canvas, player), createTarget(ctx.canvas, player), createTarget(ctx.canvas, player) ];
     const playerSpeed = 10;
 
     /** @type {GameState} */
