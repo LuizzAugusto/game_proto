@@ -18,18 +18,20 @@ export function setTimerForGameOver(player, textState) {
 
 /**
  * 
- * @param {import("./utils/spriteUtils.js").SpriteType} player 
- * @param {import("./utils/spriteUtils.js").SpriteType[]} targets 
- * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
- * @param {import("./main.js").GameState} gameState
  * @returns {import("../utils/ObservableSubject.js").ObservableSubjectType}
  */
-export function createCollisionSubject(player, targets, canvasDimension, gameState) {
+export function createCollisionSubject() {
     const collisionSubject = createObservableSubject();
-    collisionSubject.subscribe(() => {
-        for (const target of targets)
-            verifyCollision(target, player, canvasDimension, gameState);
-    });
+    collisionSubject.subscribe(
+        /** @param {import("./main.js").GameState} gameState */
+        (gameState) => {
+            const { ctx, sprites } = gameState;
+            const player = sprites[0];
+            const targets = sprites.slice(1);
+
+            for (const target of targets)
+                verifyCollision(target, player, ctx.canvas, gameState);
+        });
 
     return collisionSubject;
 }

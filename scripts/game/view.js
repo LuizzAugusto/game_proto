@@ -3,26 +3,26 @@ import { createObservableSubject } from "../utils/ObservableSubject.js";
 
 /**
  * 
- * @param {CanvasRenderingContext2D} ctx 
- * @param {import("./utils/spriteUtils.js").SpriteType} player 
- * @param {import("./utils/spriteUtils.js").SpriteType[]} sprites 
- * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
- * @param {import("./main.js").GameState} gameState
  * @returns {import("../utils/ObservableSubject.js").ObservableSubjectType}
  */
-export function createDrawSubject(ctx, player, sprites, { width, height }, gameState) {
+export function createDrawSubject() {
     const drawSubject = createObservableSubject();
-    drawSubject.subscribe(() => {
-        const { score, timeLeft } = gameState;
-        ctx.clearRect(0, 0, width, height);
-        sprites.forEach(sprite => drawSprite(sprite, ctx));
+    drawSubject.subscribe(
+        /** @param {import("./main.js").GameState} gameState */
+        (gameState) => {
+            const { ctx, sprites, score, timeLeft } = gameState;
+            const { width, height } = ctx.canvas;
+            const player = sprites[0];
 
-        drawScore(score, ctx);
-        drawTimeLeft(timeLeft, ctx);
+            ctx.clearRect(0, 0, width, height);
+            sprites.forEach(sprite => drawSprite(sprite, ctx));
 
-        if (!player.active)
-            drawText("Game Over", ctx, ctx.canvas.width / 2 - 30, ctx.canvas.height / 2 - 5);
-    });
+            drawScore(score, ctx);
+            drawTimeLeft(timeLeft, ctx);
+
+            if (!player.active)
+                drawText("Game Over", ctx, ctx.canvas.width / 2 - 30, ctx.canvas.height / 2 - 5);
+        });
 
     return drawSubject;
 }

@@ -7,6 +7,8 @@ import { createDrawSubject } from "./view.js";
 /**
  * 
  * @typedef {Object} GameState
+ * @property {CanvasRenderingContext2D} ctx
+ * @property {import("./utils/spriteUtils.js").SpriteType[]} sprites
  * @property {number} score
  * @property {number} timeLeft
  */
@@ -21,25 +23,28 @@ export function createGame(ctx) {
     const targets = [ createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension) ];
     const sprites = [ player, ...targets ];
     const playerSpeed = 10;
+
     /** @type {GameState} */
-    const gameState = { score: 0, timeLeft: 3 };
-    const collisionSubject = createCollisionSubject(player, targets, canvasDimension, gameState);
-    const drawSubject = createDrawSubject(ctx, player, sprites, canvasDimension, gameState);
+    const gameState = { ctx, sprites, score: 0, timeLeft: 3 };
+    
+    const collisionSubject = createCollisionSubject();
+    const drawSubject = createDrawSubject();
     const subjects = [collisionSubject, drawSubject];
 
     setTimerForGameOver(player, gameState);
     bindPlayerControlToKeyboard(player, playerSpeed);
     
-    update(subjects);
+    update(gameState, subjects);
 }
 
 /**
  * 
+ * @param {GameState} gameState
  * @param {import("../utils/ObservableSubject.js").ObservableSubjectType[]} subjects 
  */
-function update(subjects) {
+function update(gameState, subjects) {
     for (const sub of subjects)
-        sub.notifyAll();
+        sub.notifyAll(gameState);
 
-    requestAnimationFrame(() => update(subjects));
+    requestAnimationFrame(() => update(gameState, subjects));
 }
