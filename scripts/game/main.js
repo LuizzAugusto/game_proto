@@ -20,7 +20,7 @@ import { createDrawSubject } from "./view.js";
 export function createGame(ctx) {
     const canvasDimension = { width: ctx.canvas.width, height: ctx.canvas.height };
     const player = createPlayer(canvasDimension);
-    const targets = [ createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension) ];
+    const targets = [ createTarget(canvasDimension, player), createTarget(canvasDimension, player), createTarget(canvasDimension, player), createTarget(canvasDimension, player) ];
     const sprites = [ player, ...targets ];
     const playerSpeed = 10;
 

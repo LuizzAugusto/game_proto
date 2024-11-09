@@ -1,5 +1,5 @@
 //@ts-check
-import { resetPosition } from "../logic.js";
+import { doResetTargetPositionWhileColliding, resetPosition } from "../logic.js";
 
 /**
  * 
@@ -47,9 +47,10 @@ export function createPlayer(canvasDimension) {
 /**
  * 
  * @param {DimensionType} canvasDimension 
+ * @param {SpriteType} player 
  */
-export function createTarget(canvasDimension) {
+export function createTarget(canvasDimension, player) {
     const target = createSprite("red", 0, 0, 50, 50);
-    resetPosition(target, canvasDimension);
+    doResetTargetPositionWhileColliding(target, player, canvasDimension);
     return target;
 }

@@ -55,7 +55,7 @@ function verifyCollision(target, player, canvasDimension, gameState) {
  * @param {import("./utils/spriteUtils.js").SpriteType} player 
  * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
  */
-function doResetTargetPositionWhileColliding(target, player, canvasDimension) {
+export function doResetTargetPositionWhileColliding(target, player, canvasDimension) {
     do resetPosition(target, canvasDimension);
     while (collision(target, player));
 }
