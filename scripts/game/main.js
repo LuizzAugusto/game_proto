@@ -6,7 +6,7 @@ import { createDrawSubject } from "./view.js";
 
 /**
  * 
- * @typedef {Object} TextState
+ * @typedef {Object} GameState
  * @property {number} score
  * @property {number} timeLeft
  */
@@ -16,33 +16,30 @@ import { createDrawSubject } from "./view.js";
  * @param {CanvasRenderingContext2D} ctx 
  */
 export function createGame(ctx) {
-    const canvasDimension = { get width() { return ctx.canvas.width; }, get height() { return ctx.canvas.height; } };
+    const canvasDimension = { width: ctx.canvas.width, height: ctx.canvas.height };
     const player = createPlayer(canvasDimension);
-    const sprites = [createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), player];
+    const targets = [ createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension), createTarget(canvasDimension) ];
+    const sprites = [ player, ...targets ];
     const playerSpeed = 10;
-    /**
-     * 
-     * @type {TextState}
-     */
-    const textState = { score: 0, timeLeft: 3 };
-
-    bindPlayerControlToKeyboard(player, playerSpeed);
-    setTimerForGameOver(player, textState);
-    const collisionSubject = createCollisionSubject(player);
-    const drawSubject = createDrawSubject(ctx);
+    /** @type {GameState} */
+    const gameState = { score: 0, timeLeft: 3 };
+    const collisionSubject = createCollisionSubject(player, targets, canvasDimension, gameState);
+    const drawSubject = createDrawSubject(ctx, player, sprites, canvasDimension, gameState);
     const subjects = [collisionSubject, drawSubject];
+
+    setTimerForGameOver(player, gameState);
+    bindPlayerControlToKeyboard(player, playerSpeed);
     
-    update([sprites, canvasDimension, textState], subjects);
+    update(subjects);
 }
 
 /**
  * 
- * @param {[sprites: import("./utils/spriteUtils.js").SpriteType[], canvasDimension: import("./utils/spriteUtils.js").DimensionType, TextState]} state 
  * @param {import("../utils/ObservableSubject.js").ObservableSubjectType[]} subjects 
  */
-function update(state, subjects) {
-    subjects.forEach(subject => subject.notifyAll(...state));
+function update(subjects) {
+    for (const sub of subjects)
+        sub.notifyAll();
 
-    if (state[0][state[0].length - 1].active)
-        requestAnimationFrame(() => update(state, subjects));
+    requestAnimationFrame(() => update(subjects));
 }

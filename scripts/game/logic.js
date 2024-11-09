@@ -19,22 +19,17 @@ export function setTimerForGameOver(player, textState) {
 /**
  * 
  * @param {import("./utils/spriteUtils.js").SpriteType} player 
+ * @param {import("./utils/spriteUtils.js").SpriteType[]} targets 
+ * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
+ * @param {import("./main.js").GameState} gameState
  * @returns {import("../utils/ObservableSubject.js").ObservableSubjectType}
  */
-export function createCollisionSubject(player) {
+export function createCollisionSubject(player, targets, canvasDimension, gameState) {
     const collisionSubject = createObservableSubject();
-    collisionSubject.subscribe(
-        /**
-         * 
-         * @param {import("./utils/spriteUtils.js").SpriteType[]} sprites 
-         * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
-         * @param {{score: number, timeLeft: number}} textState 
-         */
-        (sprites, canvasDimension, textState) => {
-            for (let x = 0; x < sprites.length - 1; x++)
-                verifyCollision(sprites[x], player, canvasDimension, textState);
-        }
-    );
+    collisionSubject.subscribe(() => {
+        for (const target of targets)
+            verifyCollision(target, player, canvasDimension, gameState);
+    });
 
     return collisionSubject;
 }
@@ -44,12 +39,11 @@ export function createCollisionSubject(player) {
  * @param {import("./utils/spriteUtils.js").SpriteType} target 
  * @param {import("./utils/spriteUtils.js").SpriteType} player 
  * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
- * @param {{score: number, timeLeft: number}} textState 
  */
-function verifyCollision(target, player, canvasDimension, textState) {
+function verifyCollision(target, player, canvasDimension, gameState) {
     if (collision(target, player)) {
-        score(textState);
-        resetTargetPositionWhileColliding(target, player, canvasDimension);
+        score(gameState);
+        doResetTargetPositionWhileColliding(target, player, canvasDimension);
     }
 }
 
@@ -59,7 +53,7 @@ function verifyCollision(target, player, canvasDimension, textState) {
  * @param {import("./utils/spriteUtils.js").SpriteType} player 
  * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
  */
-function resetTargetPositionWhileColliding(target, player, canvasDimension) {
+function doResetTargetPositionWhileColliding(target, player, canvasDimension) {
     do resetPosition(target, canvasDimension);
     while (collision(target, player));
 }
