@@ -18,9 +18,8 @@ import { createDrawSubject } from "./view.js";
  * @param {CanvasRenderingContext2D} ctx 
  */
 export function createGame(ctx) {
-    const canvasDimension = { width: ctx.canvas.width, height: ctx.canvas.height };
-    const player = createPlayer(canvasDimension);
-    const targets = [ createTarget(canvasDimension, player), createTarget(canvasDimension, player), createTarget(canvasDimension, player), createTarget(canvasDimension, player) ];
+    const player = createPlayer(ctx.canvas);
+    const targets = [ createTarget(ctx.canvas, player), createTarget(ctx.canvas, player), createTarget(ctx.canvas, player), createTarget(ctx.canvas, player) ];
     const sprites = [ player, ...targets ];
     const playerSpeed = 10;
 
