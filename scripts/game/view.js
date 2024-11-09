@@ -16,7 +16,7 @@ export function drawAll(gameState) {
     drawTimeLeft(timeLeft, ctx);
 
     if (!player.active)
-        drawText("Game Over", ctx, ctx.canvas.width / 2 - 30, ctx.canvas.height / 2 - 5);
+        drawText(timeLeft > 0 ? "Paused" : "Game Over", ctx, ctx.canvas.width / 2 - 30, ctx.canvas.height / 2 - 5);
 }
 
 /**

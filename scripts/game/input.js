@@ -29,3 +29,18 @@ function playerControl({ key }, player, speed) {
 export function bindPlayerControlToKeyboard(player, speed) {
     window.addEventListener("keydown", (ev) => playerControl(ev, player, speed));
 }
+
+
+/**
+ * 
+ * @param {import("./utils/spriteUtils").SpriteType} player 
+ * @param {{ timeLeft }} gameState
+ * @param {HTMLElement|null} pauseButtonEl 
+ */
+export function activeDeactivePlayerWhenClickPauseButton(player, gameState, pauseButtonEl) {
+    if(pauseButtonEl)
+        pauseButtonEl.addEventListener("click", () => {
+            const { timeLeft } = gameState;
+            player.active = timeLeft > 0 && !player.active;
+        });
+}

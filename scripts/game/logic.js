@@ -7,6 +7,9 @@
  */
 export function setTimerForGameOver(player, textState) {
     const id = window.setInterval(() => {
+        if (!player.active)
+            return;
+    
         textState.timeLeft -= 1;
         if (textState.timeLeft == 0) {
             player.active = false;

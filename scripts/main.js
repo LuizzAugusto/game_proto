@@ -14,7 +14,8 @@ if (canvas?.tagName == "CANVAS") {
         canvas.width = 500;
         canvas.height = 500;
         canvas.style.border = "1px solid #ccc";
-        createGame(ctx);
+        const pauseButton = document.getElementById("pauseBtn");
+        createGame(ctx, pauseButton);
     }
     else
         alert("error, can't get canvas context");

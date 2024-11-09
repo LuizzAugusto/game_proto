@@ -1,9 +1,16 @@
 //@ts-check
 import { createObservableSubject } from "../utils/ObservableSubject.js";
-import { bindPlayerControlToKeyboard } from "./input.js";
+import { activeDeactivePlayerWhenClickPauseButton, bindPlayerControlToKeyboard } from "./input.js";
 import { verifyTargetIsCollidingWithPlayer, setTimerForGameOver } from "./logic.js";
 import { createPlayer, createTarget } from "./utils/spriteUtils.js";
 import { drawAll } from "./view.js";
+
+/**
+ * 
+ * @typedef {Object} TextState
+ * @property {number} score
+ * @property {number} timeLeft
+ */
 
 /**
  * 
@@ -17,17 +24,25 @@ import { drawAll } from "./view.js";
 /**
  * 
  * @param {CanvasRenderingContext2D} ctx 
+ * @param {HTMLElement|null} pauseButtonEl 
  */
-export function createGame(ctx) {
+export function createGame(ctx, pauseButtonEl = null) {
     const player = createPlayer(ctx.canvas);
-    const sprites = [ player, createTarget(ctx.canvas, player), createTarget(ctx.canvas, player), createTarget(ctx.canvas, player), createTarget(ctx.canvas, player) ];
     const playerSpeed = 10;
+    const sprites = [
+        player,
+        createTarget(ctx.canvas, player),
+        createTarget(ctx.canvas, player),
+        createTarget(ctx.canvas, player),
+        createTarget(ctx.canvas, player)
+    ];
 
     /** @type {GameState} */
     const gameState = { ctx, sprites, score: 0, timeLeft: 3 };
 
     setTimerForGameOver(player, gameState);
     bindPlayerControlToKeyboard(player, playerSpeed);
+    activeDeactivePlayerWhenClickPauseButton(player, gameState, pauseButtonEl);
 
     const collisionSubject = createObservableSubject();
     const drawSubject = createObservableSubject();

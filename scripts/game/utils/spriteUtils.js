@@ -39,7 +39,7 @@ export function createSprite(color, x, y, width, height, visible = true, active 
  * @param {DimensionType} canvasDimension 
  */
 export function createPlayer(canvasDimension) {
-    const player = createSprite("green", 0, 0, 50, 50);
+    const player = createSprite("green", 0, 0, 50, 50, true, false);
     resetPosition(player, canvasDimension);
     return player;
 }
