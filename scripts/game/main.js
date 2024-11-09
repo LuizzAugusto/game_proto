@@ -1,8 +1,9 @@
 //@ts-check
+import { createObservableSubject } from "../utils/ObservableSubject.js";
 import { bindPlayerControlToKeyboard } from "./input.js";
-import { createCollisionSubject, setTimerForGameOver } from "./logic.js";
+import { verifyTargetIsCollidingWithPlayer, setTimerForGameOver } from "./logic.js";
 import { createPlayer, createTarget } from "./utils/spriteUtils.js";
-import { createDrawSubject } from "./view.js";
+import { drawAll } from "./view.js";
 
 /**
  * 
@@ -24,13 +25,16 @@ export function createGame(ctx) {
 
     /** @type {GameState} */
     const gameState = { ctx, sprites, score: 0, timeLeft: 3 };
-    
-    const collisionSubject = createCollisionSubject();
-    const drawSubject = createDrawSubject();
-    const subjects = [collisionSubject, drawSubject];
 
     setTimerForGameOver(player, gameState);
     bindPlayerControlToKeyboard(player, playerSpeed);
+
+    const collisionSubject = createObservableSubject();
+    const drawSubject = createObservableSubject();
+    const subjects = [ collisionSubject, drawSubject ];
+
+    collisionSubject.subscribe((gameState) => verifyTargetIsCollidingWithPlayer(gameState));
+    drawSubject.subscribe((gameState) => drawAll(gameState));
     
     update(gameState, subjects);
 }

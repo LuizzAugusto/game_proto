@@ -1,30 +1,22 @@
 //@ts-check
-import { createObservableSubject } from "../utils/ObservableSubject.js";
 
 /**
  * 
- * @returns {import("../utils/ObservableSubject.js").ObservableSubjectType}
+ * @param {import("./main.js").GameState} gameState
  */
-export function createDrawSubject() {
-    const drawSubject = createObservableSubject();
-    drawSubject.subscribe(
-        /** @param {import("./main.js").GameState} gameState */
-        (gameState) => {
-            const { ctx, sprites, score, timeLeft } = gameState;
-            const { width, height } = ctx.canvas;
-            const player = sprites[0];
+export function drawAll(gameState) {
+    const { ctx, sprites, score, timeLeft } = gameState;
+    const { width, height } = ctx.canvas;
+    const player = sprites[0];
 
-            ctx.clearRect(0, 0, width, height);
-            sprites.forEach(sprite => drawSprite(sprite, ctx));
+    ctx.clearRect(0, 0, width, height);
+    sprites.forEach(sprite => drawSprite(sprite, ctx));
 
-            drawScore(score, ctx);
-            drawTimeLeft(timeLeft, ctx);
+    drawScore(score, ctx);
+    drawTimeLeft(timeLeft, ctx);
 
-            if (!player.active)
-                drawText("Game Over", ctx, ctx.canvas.width / 2 - 30, ctx.canvas.height / 2 - 5);
-        });
-
-    return drawSubject;
+    if (!player.active)
+        drawText("Game Over", ctx, ctx.canvas.width / 2 - 30, ctx.canvas.height / 2 - 5);
 }
 
 /**

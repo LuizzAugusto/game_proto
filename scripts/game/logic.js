@@ -1,5 +1,4 @@
 //@ts-check
-import { createObservableSubject } from "../utils/ObservableSubject.js";
 
 /**
  * 
@@ -18,22 +17,15 @@ export function setTimerForGameOver(player, textState) {
 
 /**
  * 
- * @returns {import("../utils/ObservableSubject.js").ObservableSubjectType}
+ * @param {import("./main.js").GameState} gameState
  */
-export function createCollisionSubject() {
-    const collisionSubject = createObservableSubject();
-    collisionSubject.subscribe(
-        /** @param {import("./main.js").GameState} gameState */
-        (gameState) => {
-            const { ctx, sprites } = gameState;
-            const player = sprites[0];
-            const targets = sprites.slice(1);
+export function verifyTargetIsCollidingWithPlayer(gameState) {
+    const { ctx, sprites } = gameState;
+    const player = sprites[0];
+    const targets = sprites.slice(1);
 
-            for (const target of targets)
-                verifyCollision(target, player, ctx.canvas, gameState);
-        });
-
-    return collisionSubject;
+    for (const target of targets)
+        verifyCollision(target, player, ctx.canvas, gameState);
 }
 
 /**
