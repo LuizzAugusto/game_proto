@@ -24,9 +24,9 @@ export function setTimerForGameOver(player, textState) {
  * @param {import("./main.js").GameState} gameState
  */
 export function verifyTargetIsCollidingWithPlayer(gameState) {
-    const { ctx, sprites } = gameState;
-    const player = sprites[0];
-    const targets = sprites.slice(1);
+    const { ctx, spritesWrapper } = gameState;
+    const player = spritesWrapper.spritesObject.player;
+    const targets = spritesWrapper.spritesObject.targets;
 
     for (const target of targets)
         verifyCollision(target, player, ctx.canvas, gameState);

@@ -2,7 +2,7 @@
 import { createObservableSubject } from "../game_core/utils/ObservableSubject.js";
 import { activeDeactivePlayerWhenClickPauseButton, bindPlayerControlToKeyboard } from "./input.js";
 import { verifyTargetIsCollidingWithPlayer, setTimerForGameOver } from "./logic.js";
-import { createPlayer, createTarget } from "./utils/spriteUtils.js";
+import { createPlayer, createSpritesWrapper, createTarget } from "./SpritesWrapper.js";
 import { drawAll } from "./view.js";
 
 /**
@@ -16,7 +16,7 @@ import { drawAll } from "./view.js";
  * 
  * @typedef {Object} GameState
  * @property {CanvasRenderingContext2D} ctx
- * @property {import("../game_core/logic.js").SpriteType[]} sprites
+ * @property {import("./SpritesWrapper.js").Sprites} spritesWrapper
  * @property {number} score
  * @property {number} timeLeft
  */
@@ -29,16 +29,16 @@ import { drawAll } from "./view.js";
 export function createGame(ctx, pauseButtonEl = null) {
     const player = createPlayer(ctx.canvas);
     const playerSpeed = 10;
-    const sprites = [
-        player,
+    const targets = [
         createTarget(ctx.canvas, player),
         createTarget(ctx.canvas, player),
         createTarget(ctx.canvas, player),
-        createTarget(ctx.canvas, player)
+        createTarget(ctx.canvas, player),
     ];
+    const spritesWrapper = createSpritesWrapper(player, targets);
 
     /** @type {GameState} */
-    const gameState = { ctx, sprites, score: 0, timeLeft: 3 };
+    const gameState = { ctx, spritesWrapper, score: 0, timeLeft: 3 };
 
     setTimerForGameOver(player, gameState);
     bindPlayerControlToKeyboard(player, playerSpeed);

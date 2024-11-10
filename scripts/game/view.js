@@ -7,12 +7,13 @@ import { drawHorizontalGuideLine, drawVeritcalGuideLine } from "../game_core/vie
  * @param {import("./main.js").GameState} gameState
  */
 export function drawAll(gameState) {
-    const { ctx, sprites, score, timeLeft } = gameState;
+    const { ctx, spritesWrapper, score, timeLeft } = gameState;
     const { width, height } = ctx.canvas;
-    const player = sprites[0];
+    const player = spritesWrapper.spritesObject.player;
 
     ctx.clearRect(0, 0, width, height);
-    sprites.forEach(sprite => drawSprite(sprite, ctx));
+    for(const sprite of gameState.spritesWrapper.spritesArray)
+        drawSprite(sprite, ctx);
 
     drawScore(score, ctx);
     drawTimeLeft(timeLeft, ctx);
