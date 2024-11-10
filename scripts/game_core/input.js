@@ -1,5 +1,5 @@
 //@ts-check
-import { createObservableSubject } from "../utils/ObservableSubject";
+import { createObservableSubject } from "./utils/ObservableSubject.js";
 
 export function createKeydownSubject() {
     const subject = createObservableSubject();
