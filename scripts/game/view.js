@@ -25,7 +25,9 @@ export function drawAll(gameState) {
             ctx.canvas.width / 2 - deactivePlayerMsg.length * 3, 
             ctx.canvas.height / 2 + 3);
 
-    if (sessionStorage.getItem("dev")) {
+    const devMode = sessionStorage.getItem("dev") === "true";
+
+    if (devMode) {
         drawHorizontalGuideLine(ctx.canvas.height / 2, "red", ctx);
         drawVeritcalGuideLine(ctx.canvas.width / 2, "red", ctx);
     }
