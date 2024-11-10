@@ -1,8 +1,9 @@
 //@ts-check
+import { areSpritesColliding, randomSpritePosition } from "../game_core/logic.js";
 
 /**
  * 
- * @param {import("./utils/spriteUtils.js").SpriteType} player 
+ * @param {import("../game_core/logic.js").SpriteType} player 
  * @param {{score: number, timeLeft: number}} textState 
  */
 export function setTimerForGameOver(player, textState) {
@@ -33,47 +34,26 @@ export function verifyTargetIsCollidingWithPlayer(gameState) {
 
 /**
  * 
- * @param {import("./utils/spriteUtils.js").SpriteType} target 
- * @param {import("./utils/spriteUtils.js").SpriteType} player 
- * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
+ * @param {import("../game_core/logic.js").SpriteType} target 
+ * @param {import("../game_core/logic.js").SpriteType} player 
+ * @param {import("../game_core/logic.js").DimensionType} canvasDimension 
  */
 function verifyCollision(target, player, canvasDimension, gameState) {
-    if (collision(target, player)) {
+    if (areSpritesColliding(target, player)) {
         score(gameState);
-        doResetTargetPositionWhileColliding(target, player, canvasDimension);
+        doRandomTargetPositionWhileColliding(target, player, canvasDimension);
     }
 }
 
 /**
  * 
- * @param {import("./utils/spriteUtils.js").SpriteType} target 
- * @param {import("./utils/spriteUtils.js").SpriteType} player 
- * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
+ * @param {import("../game_core/logic.js").SpriteType} target 
+ * @param {import("../game_core/logic.js").SpriteType} player 
+ * @param {import("../game_core/logic.js").DimensionType} canvasDimension 
  */
-export function doResetTargetPositionWhileColliding(target, player, canvasDimension) {
-    do resetPosition(target, canvasDimension);
-    while (collision(target, player));
-}
-
-/**
- * 
- * @param {import("./utils/spriteUtils.js").SpriteType} sprite 
- * @param {import("./utils/spriteUtils.js").DimensionType} canvasDimension 
- */
-export function resetPosition(sprite, { width, height }) {
-    sprite.x = Math.floor((Math.random() * width * 10) % (width - sprite.width));
-    sprite.y = Math.floor((Math.random() * height * 10) % (height - sprite.height));
-}
-
-/**
- * 
- * @param {import("./utils/spriteUtils.js").SpriteType} sprite 
- * @param {import("./utils/spriteUtils.js").SpriteType} sprite2 
- */
-function collision(sprite, sprite2) {
-    return sprite.visible && sprite2.visible
-        && (sprite.x + sprite.width) >= sprite2.x && sprite.x <= (sprite2.x + sprite2.width)
-        && (sprite.y + sprite.height) >= sprite2.y && sprite.y <= (sprite2.y + sprite2.height);
+export function doRandomTargetPositionWhileColliding(target, player, canvasDimension) {
+    do randomSpritePosition(target, canvasDimension);
+    while (areSpritesColliding(target, player));
 }
 
 /**

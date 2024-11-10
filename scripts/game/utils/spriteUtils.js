@@ -1,56 +1,25 @@
 //@ts-check
-import { doResetTargetPositionWhileColliding, resetPosition } from "../logic.js";
+import { randomSpritePosition } from "../../game_core/logic.js";
+import { createSprite } from "../../game_core/view.js";
+import { doRandomTargetPositionWhileColliding } from "../logic.js";
 
 /**
  * 
- * @typedef {Object} PositionType
- * @property {number} x
- * @property {number} y
- */
-
-/**
- * 
- * @typedef {Object} DimensionType
- * @property {number} width
- * @property {number} height
- */
-
-/**
- * 
- * @typedef {PositionType & DimensionType & { color: string, visible: boolean, active: boolean }} SpriteType
- */
-
-/**
- * 
- * @param {string} color 
- * @param {number} x 
- * @param {number} y 
- * @param {number} width 
- * @param {number} height 
- * @param {boolean|undefined} visible 
- * @returns {SpriteType}
- */
-export function createSprite(color, x, y, width, height, visible = true, active = true) {
-    return { color, x, y, width, height, visible, active };
-}
-
-/**
- * 
- * @param {DimensionType} canvasDimension 
+ * @param {import("../../game_core/logic.js").DimensionType} canvasDimension 
  */
 export function createPlayer(canvasDimension) {
     const player = createSprite("green", 0, 0, 50, 50, true, false);
-    resetPosition(player, canvasDimension);
+    randomSpritePosition(player, canvasDimension);
     return player;
 }
 
 /**
  * 
- * @param {DimensionType} canvasDimension 
- * @param {SpriteType} player 
+ * @param {import("../../game_core/logic.js").DimensionType} canvasDimension 
+ * @param {import("../../game_core/logic.js").SpriteType} player 
  */
 export function createTarget(canvasDimension, player) {
     const target = createSprite("red", 0, 0, 50, 50);
-    doResetTargetPositionWhileColliding(target, player, canvasDimension);
+    doRandomTargetPositionWhileColliding(target, player, canvasDimension);
     return target;
 }

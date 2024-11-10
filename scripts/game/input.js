@@ -3,7 +3,7 @@
 /**
  * 
  * @param {KeyboardEvent} ev
- * @param {import("./utils/spriteUtils").SpriteType} player 
+ * @param {import("../game_core/logic.js").SpriteType} player 
  * @param {number} speed 
  */
 function playerControl({ key }, player, speed) {
@@ -23,7 +23,7 @@ function playerControl({ key }, player, speed) {
 
 /**
  * 
- * @param {import("./utils/spriteUtils").SpriteType} player 
+ * @param {import("../game_core/logic.js").SpriteType} player 
  * @param {number} speed 
  */
 export function bindPlayerControlToKeyboard(player, speed) {
@@ -33,7 +33,7 @@ export function bindPlayerControlToKeyboard(player, speed) {
 
 /**
  * 
- * @param {import("./utils/spriteUtils").SpriteType} player 
+ * @param {import("../game_core/logic.js").SpriteType} player 
  * @param {{ timeLeft }} gameState
  * @param {HTMLElement|null} pauseButtonEl 
  */

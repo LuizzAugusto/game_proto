@@ -21,7 +21,7 @@ export function drawAll(gameState) {
 
 /**
  * 
- * @param {import("./utils/spriteUtils.js").SpriteType} sprite 
+ * @param {import("../game_core/logic.js").SpriteType} sprite 
  * @param {CanvasRenderingContext2D} ctx 
  */
 function drawSprite({ color, x, y, width, height, visible }, ctx) {

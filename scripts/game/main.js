@@ -1,5 +1,5 @@
 //@ts-check
-import { createObservableSubject } from "../utils/ObservableSubject.js";
+import { createObservableSubject } from "../game_core/utils/ObservableSubject.js";
 import { activeDeactivePlayerWhenClickPauseButton, bindPlayerControlToKeyboard } from "./input.js";
 import { verifyTargetIsCollidingWithPlayer, setTimerForGameOver } from "./logic.js";
 import { createPlayer, createTarget } from "./utils/spriteUtils.js";
@@ -16,7 +16,7 @@ import { drawAll } from "./view.js";
  * 
  * @typedef {Object} GameState
  * @property {CanvasRenderingContext2D} ctx
- * @property {import("./utils/spriteUtils.js").SpriteType[]} sprites
+ * @property {import("../game_core/logic.js").SpriteType[]} sprites
  * @property {number} score
  * @property {number} timeLeft
  */
@@ -57,7 +57,7 @@ export function createGame(ctx, pauseButtonEl = null) {
 /**
  * 
  * @param {GameState} gameState
- * @param {import("../utils/ObservableSubject.js").ObservableSubjectType[]} subjects 
+ * @param {import("../game_core/utils/ObservableSubject.js").ObservableSubjectType[]} subjects 
  */
 function update(gameState, subjects) {
     for (const sub of subjects)
