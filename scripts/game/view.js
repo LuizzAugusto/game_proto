@@ -1,5 +1,7 @@
 //@ts-check
 
+import { drawHorizontalGuideLine, drawVeritcalGuideLine } from "../game_core/view.js";
+
 /**
  * 
  * @param {import("./main.js").GameState} gameState
@@ -15,8 +17,17 @@ export function drawAll(gameState) {
     drawScore(score, ctx);
     drawTimeLeft(timeLeft, ctx);
 
+    const deactivePlayerMsg = timeLeft > 0 ? "Paused" : "Game Over";
+
     if (!player.active)
-        drawText(timeLeft > 0 ? "Paused" : "Game Over", ctx, ctx.canvas.width / 2 - 30, ctx.canvas.height / 2 - 5);
+        drawText(deactivePlayerMsg, ctx, 
+            ctx.canvas.width / 2 - deactivePlayerMsg.length * 3, 
+            ctx.canvas.height / 2 + 3);
+
+    if (sessionStorage.getItem("dev")) {
+        drawHorizontalGuideLine(ctx.canvas.height / 2, "red", ctx);
+        drawVeritcalGuideLine(ctx.canvas.width / 2, "red", ctx);
+    }
 }
 
 /**
