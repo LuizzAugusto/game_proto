@@ -24,6 +24,23 @@ import { drawAll } from "./view.js";
 /**
  * 
  * @param {CanvasRenderingContext2D} ctx 
+ * @param {import("./SpritesWrapper.js").Sprites} spritesWrapper 
+ * @param {number} score 
+ * @param {number} timeLeft 
+ * @returns {GameState}
+ */
+function createGameState(ctx, spritesWrapper, score = 0, timeLeft = 3) {
+    return {
+        ctx,
+        spritesWrapper,
+        score,
+        timeLeft,
+    }
+}
+
+/**
+ * 
+ * @param {CanvasRenderingContext2D} ctx 
  * @param {HTMLElement|null} pauseButtonEl 
  */
 export function createGame(ctx, pauseButtonEl = null) {
@@ -36,9 +53,7 @@ export function createGame(ctx, pauseButtonEl = null) {
         createTarget(ctx.canvas, player),
     ];
     const spritesWrapper = createSpritesWrapper(player, targets);
-
-    /** @type {GameState} */
-    const gameState = { ctx, spritesWrapper, score: 0, timeLeft: 3 };
+    const gameState = createGameState(ctx, spritesWrapper);
 
     setTimerForGameOver(player, gameState);
     bindPlayerControlToKeyboard(player, playerSpeed);
