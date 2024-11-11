@@ -37,10 +37,11 @@ export function verifyTargetIsCollidingWithPlayer(gameState) {
  * @param {import("../game_core/logic.js").SpriteType} target 
  * @param {import("../game_core/logic.js").SpriteType} player 
  * @param {import("../game_core/logic.js").DimensionType} canvasDimension 
+ * @param {import("./main.js").TextState} textState 
  */
-function verifyCollision(target, player, canvasDimension, gameState) {
+function verifyCollision(target, player, canvasDimension, textState) {
     if (areSpritesColliding(target, player)) {
-        score(gameState);
+        score(textState);
         doRandomTargetPositionWhileColliding(target, player, canvasDimension);
     }
 }
