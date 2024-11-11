@@ -18,5 +18,5 @@ if (canvas?.tagName == "CANVAS") {
         createGame(ctx, pauseButton);
     }
     else
-        alert("error, can't get canvas context");
+        console.error("error, can't get canvas context");
 }
